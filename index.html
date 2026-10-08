@@ -1,0 +1,29 @@
+<!doctype html><html lang="ru"><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Тест: выход из Instagram</title>
+<style>body{font-family:-apple-system,system-ui,sans-serif;margin:0;padding:18px 16px 40px;background:#F4F1E6;color:#2C2C1E}h1{font-size:22px;margin:0 0 6px}p{font-size:14.5px;line-height:1.45;color:#6B6B55;margin:6px 0}
+.env{background:#fff;border-radius:14px;padding:12px 14px;font-size:14px;margin:12px 0}.env b{color:#2C2C1E}.ok{color:#4A7A3A;font-weight:700}.bad{color:#C0392B;font-weight:700}
+.t{background:#fff;border:2px solid #E3E2D5;border-radius:16px;padding:14px;margin:12px 0}.t h2{font-size:16px;margin:0 0 4px}.t p{font-size:13px;margin:0 0 10px}
+a.b{display:block;text-align:center;background:#5B8A4A;color:#fff;text-decoration:none;font-weight:700;border-radius:999px;padding:14px;font-size:16px}a.b.g{background:#2C2C1E}
+small{display:block;font-size:11px;color:#A8A490;word-break:break-all;margin-top:8px}#st{font-weight:700}</style>
+<h1>Тест: выход из Instagram в браузер</h1>
+<p>Открой эту ссылку из директа Instagram на iPhone. Нажимай кнопки по очереди, после каждой возвращайся в Instagram и пиши, что произошло.</p>
+<div class="env" id="env"></div>
+<div class="t"><h2>1. Схема Instagram (главная ставка)</h2><p>Должен появиться диалог Instagram «открыть во внешнем браузере», потом браузер со страницей «✅ Открылось».</p><a class="b" id="b1">Открыть в браузере · способ 1</a></div>
+<div class="t"><h2>2. x-safari-https</h2><p>Старый способ «сразу Safari». По статьям Instagram его режет с 2025.</p><a class="b" id="b2">Открыть в Safari · способ 2</a></div>
+<div class="t"><h2>3. Через Chrome</h2><p>Сработает только если стоит Chrome.</p><a class="b g" id="b3">Открыть в Chrome · способ 3</a></div>
+<div class="t"><h2>4. Автоматически, без нажатия</h2><p>Страница сама пробует уйти во внешний браузер при загрузке. Если ничего не случится — значит, автоматом нельзя, только по кнопке.</p><a class="b g" href="#" id="b4">Проверить автопереход · способ 4</a></div>
+<p>Статус: <span id="st">ничего не нажато</span></p>
+<p style="font-size:12.5px">«Код ответов» ниже имитирует анкету: он лежит в памяти этого браузера и едет в ссылке. На странице «✅ Открылось» видно, доехал ли он и сохранилась ли память.</p>
+<script src="common.js"></script>
+<script>
+var e=env();var code=localStorage.getItem("igtest_code");if(!code){code=Math.random().toString(36).slice(2,8).toUpperCase();localStorage.setItem("igtest_code",code);}
+document.getElementById("env").innerHTML="Браузер: <b>"+e.browser+"</b><br>iPhone: <b>"+(e.ios?"да":"нет")+"</b> · Instagram: "+(e.ig?'<span class="ok">определён ✓</span>':'<span class="bad">не определён</span>')+"<br>Код ответов: <b>"+code+"</b><small>"+e.ua+"</small>";
+var base=new URL("landing.html",location.href).href.split("?")[0]+"?code="+code+"&via=";
+document.getElementById("b1").href="instagram://extbrowser/?url="+encodeURIComponent(base+"ig_extbrowser");
+document.getElementById("b2").href="x-safari-"+base+"x_safari";
+document.getElementById("b4").href="auto.html";document.getElementById("b3").href=base.replace(/^https:/,"googlechromes:")+"chrome";
+["b1","b2","b3","b4"].forEach(function(id,i){document.getElementById(id).addEventListener("click",function(){hit("click",{btn:i+1});document.getElementById("st").textContent="нажат способ "+(i+1)+", ждём…";var t0=Date.now();
+setTimeout(function(){if(!document.hidden&&Date.now()-t0<3000)document.getElementById("st").textContent="способ "+(i+1)+": через 1,5 с страница всё ещё на экране — похоже, не сработал";},1500);});});
+document.addEventListener("visibilitychange",function(){if(document.hidden){hit("hidden");document.getElementById("st").textContent="страница ушла в фон — что-то открылось";}});
+hit("open");
+</script></html>
