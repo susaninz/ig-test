@@ -1,0 +1,13 @@
+<!doctype html><html lang="ru"><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Открылось</title>
+<style>body{font-family:-apple-system,system-ui,sans-serif;margin:0;padding:24px 16px;background:#F4F1E6;color:#2C2C1E}.big{font-size:44px}h1{font-size:24px;margin:8px 0}.card{background:#fff;border-radius:14px;padding:14px;font-size:15px;line-height:1.6}.ok{color:#4A7A3A;font-weight:700}.bad{color:#C0392B;font-weight:700}small{display:block;font-size:11px;color:#A8A490;word-break:break-all;margin-top:10px}</style>
+<div class="big" id="ic">✅</div><h1 id="h">Открылось</h1><div class="card" id="c"></div>
+<p style="font-size:14px;color:#6B6B55">Сделай скриншот и вернись в Instagram пробовать следующий способ.</p>
+<script src="common.js"></script>
+<script>
+var e=env(),p=new URLSearchParams(location.search),code=p.get("code")||"—",via=p.get("via")||"—",mem=localStorage.getItem("igtest_code");
+if(e.ig){document.getElementById("ic").textContent="⚠️";document.getElementById("h").textContent="Открылось, но всё ещё внутри Instagram";}
+document.getElementById("c").innerHTML="Способ: <b>"+via+"</b><br>Браузер: <b>"+e.browser+"</b> "+(e.ig?'<span class="bad">(не вышли)</span>':'<span class="ok">(вышли ✓)</span>')+
+"<br>Код в ссылке: <b>"+code+"</b> <span class=ok>— доехал ✓</span><br>Память браузера: "+(mem===code?'<span class="bad">та же — это тот же браузер</span>':'<span class="ok">пустая — значит, ответы нужно везти ссылкой</span>')+"<small>"+e.ua+"</small>";
+hit("landing",{via:via,code:code});
+</script></html>
